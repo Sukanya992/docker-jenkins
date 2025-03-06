@@ -1,0 +1,60 @@
+pipeline {
+    agent any 
+
+    environment {
+        SONARQUBE_URL = 'http://your-sonarqube-server:9000'
+        SONARQUBE_TOKEN = credentials('sonar-token')  // Jenkins credential ID for SonarQube token
+        DOCKER_IMAGE = 'sukanya996/docker-jenkins:latest'
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git  branch: 'main', url:'https://github.com/Sukanya992/docker-jenkins.git'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh 'mvn sonar:sonar -Dsonar.projectKey=docker-jenkins'
+                }
+            }
+        }
+
+        stage('Build with Maven') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $DOCKER_IMAGE .'
+            }
+        }
+
+        stage('Push to Docker Registry') {
+            steps {
+                withDockerRegistry([credentialsId: 'docker-jenkins', url: 'https://hub.docker.com/repositories/sukanya996']) {
+                    sh 'docker push $DOCKER_IMAGE'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh 'docker run -d -p 8082:8082 $DOCKER_IMAGE'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline executed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
