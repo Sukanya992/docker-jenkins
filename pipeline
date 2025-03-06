@@ -2,23 +2,13 @@ pipeline {
     agent any 
 
     environment {
-        SONARQUBE_URL = 'http://35.209.243.49:9000'
-        SONARQUBE_TOKEN = credentials('sonarqube-jenkins')  // Jenkins credential ID for SonarQube token
         DOCKER_IMAGE = 'sukanya996/docker-jenkins:latest'
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                   git branch: 'main', url: 'https://github.com/Sukanya992/docker-jenkins.git'    
-            }
-        }
-
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                         sh '/opt/maven/bin/mvn sonar:sonar -Dsonar.projectKey=docker-jenkins -Dsonar.host.url=$SONARQUBE_URL -Dsonar.login=$SONARQUBE_TOKEN'
-                }
+                git branch: 'main', url: 'https://github.com/Sukanya992/docker-jenkins.git'    
             }
         }
 
@@ -44,7 +34,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh 'docker run -d --name java-project -p 8082:8082 $DOCKER_IMAGE'
+                sh 'docker run -d --name test-project -p 8082:8082 $DOCKER_IMAGE'
             }
         }
     }
