@@ -29,10 +29,11 @@
             <version>2.7.5</version>
         </dependency>
 
-        <!-- Spring Boot Starter Test (Optional for testing) -->
+        <!-- Spring Boot Starter Test (Fixed: Added missing version) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <version>2.7.5</version>  <!-- Version added -->
             <scope>test</scope>
         </dependency>
     </dependencies>
