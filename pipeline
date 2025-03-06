@@ -2,8 +2,8 @@ pipeline {
     agent any 
 
     environment {
-        SONARQUBE_URL = 'http://your-sonarqube-server:9000'
-        SONARQUBE_TOKEN = credentials('sonar-token')  // Jenkins credential ID for SonarQube token
+        SONARQUBE_URL = 'http://35.209.243.49:9000'
+        SONARQUBE_TOKEN = credentials('sonarqube-jenkins')  // Jenkins credential ID for SonarQube token
         DOCKER_IMAGE = 'sukanya996/docker-jenkins:latest'
     }
 
