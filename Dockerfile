@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY target/docker-jenkins-1.0-SNAPSHOT.jar /app/app.jar
 
-EXPOSE 8083  # Add this to expose the port
+EXPOSE 8082
 
 CMD ["java", "-jar", "/app/app.jar"]
 
