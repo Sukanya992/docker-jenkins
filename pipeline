@@ -17,7 +17,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    sh 'mvn sonar:sonar -Dsonar.projectKey=docker-jenkins'
+                    sh '/opt/maven/bin/mvn sonar:sonar -Dsonar.projectKey=docker-jenkins'
                 }
             }
         }
